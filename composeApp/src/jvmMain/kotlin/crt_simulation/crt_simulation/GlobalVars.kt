@@ -6,13 +6,17 @@ import androidx.compose.runtime.getValue
 
 object GlobalVars {
 
-    var length = 10.0f // cm
+    var length = 1.0f // metres
 
-    var plateSeparation = 10.0f // cm
+    var plateSeparation = 1.0f // metres
 
-    var potentialDifference = 10.0f // Volts
+    var potentialDifference = 100.0f // Volts
 
-    var initialSpeed = 10.0f // m/s
+    var initialSpeed = 1e6f // m/s
 
-    var acceleration by mutableStateOf(Calculations.calcAcc()) // m/s^2
+    var acceleration by mutableStateOf(1f) // m/s^2
+    var dx by mutableStateOf(1f) // m
+    var dy by mutableStateOf(1f) // m
+    var time by mutableStateOf(1f) // s
+
 }

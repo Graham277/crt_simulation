@@ -28,16 +28,16 @@ fun Inputs() {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(32.dp) // spacing between columns
     ) {
-        // Plate separation
+        // Length
         Column(
             modifier = Modifier.weight(1f) // take half the width
         ) {
-            Text("Length of the plates: ${length}cm")
+            Text("Length of the plates: ${length * 100}cm") // convert to cm
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                var lengthText by remember { mutableStateOf(length.toString()) }
+                var lengthText by remember { mutableStateOf((length * 100).toString()) } // Convert to cm
 
                 TextField(
                     value = lengthText,
@@ -47,8 +47,8 @@ fun Inputs() {
                         val value = newText.toFloatOrNull()
                         if (value != null) {
                             val clamped = value.coerceIn(0.1f, 100f)
-                            GlobalVars.length = round(clamped * 10) / 10
-                            Calculations.updateAll()
+                            GlobalVars.length = round(clamped * 10) / 10 / 100 // Round and then convert to metres
+                            Calculations.performCalculations()
                         }
                     },
                     label = { Text("Value:") },
@@ -58,11 +58,11 @@ fun Inputs() {
                 Spacer(Modifier.width(16.dp))
 
                 Slider(
-                    value = length,
+                    value = length * 100, // convert to cm
                     onValueChange = {
-                        GlobalVars.length = round(it * 10) / 10
+                        GlobalVars.length = round(it * 10) / 10 / 100 // Round and then convert to metres
                         lengthText = (round(it * 10) / 10).toString()
-                        Calculations.updateAll()
+                        Calculations.performCalculations()
                     },
                     valueRange = 0.1f..100f,
                     modifier = Modifier.weight(1f)
@@ -74,12 +74,12 @@ fun Inputs() {
         Column(
             modifier = Modifier.weight(1f) // take half the width
         ) {
-            Text("Plate Separation: ${plateSeparation}cm")
+            Text("Plate Separation: ${plateSeparation * 100}cm") // convert to cm
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                var plateSeparationText by remember { mutableStateOf(plateSeparation.toString()) }
+                var plateSeparationText by remember { mutableStateOf((plateSeparation * 100).toString()) }
 
                 TextField(
                     value = plateSeparationText,
@@ -89,8 +89,8 @@ fun Inputs() {
                         val value = newText.toFloatOrNull()
                         if (value != null) {
                             val clamped = value.coerceIn(0.1f, 25f)
-                            GlobalVars.plateSeparation = round(clamped * 10) / 10
-                            Calculations.updateAll()
+                            GlobalVars.plateSeparation = round(clamped * 10) / 10 / 100 // Round and then convert to metres
+                            Calculations.performCalculations()
                         }
                     },
                     label = { Text("Value:") },
@@ -100,11 +100,11 @@ fun Inputs() {
                 Spacer(Modifier.width(16.dp))
 
                 Slider(
-                    value = plateSeparation,
+                    value = plateSeparation * 100, // Convert to cm
                     onValueChange = {
-                        GlobalVars.plateSeparation = round(it * 10) / 10
+                        GlobalVars.plateSeparation = round(it * 10) / 10 / 100 // Round and then convert to metres
                         plateSeparationText = (round(it * 10) / 10).toString()
-                        Calculations.updateAll()
+                        Calculations.performCalculations()
                     },
                     valueRange = 0.1f..25f,
                     modifier = Modifier.weight(1f)
@@ -123,7 +123,7 @@ fun Inputs() {
         Column(
             modifier = Modifier.weight(1f) // take half the width
         ) {
-            Text("Object 1 initial velocity: ${potentialDifference}V")
+            Text("Potential Difference Between Plates (Voltage): ${potentialDifference}V")
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -138,8 +138,8 @@ fun Inputs() {
                         val value = newText.toFloatOrNull()
                         if (value != null) {
                             val clamped = value.coerceIn(0.1f, 1000f)
-                            GlobalVars.initialSpeed = round(clamped * 10) / 10
-                            Calculations.updateAll()
+                            GlobalVars.potentialDifference = round(clamped * 10) / 10
+                            Calculations.performCalculations()
                         }
                     },
                     label = { Text("Value:") },
@@ -153,7 +153,7 @@ fun Inputs() {
                     onValueChange = {
                         GlobalVars.potentialDifference = round(it * 10) / 10
                         potentialDifferenceText = (round(it * 10) / 10).toString()
-                        Calculations.updateAll()
+                        Calculations.performCalculations()
                     },
                     valueRange = 0.1f..1000f,
                     modifier = Modifier.weight(1f)
@@ -165,7 +165,7 @@ fun Inputs() {
         Column(
             modifier = Modifier.weight(1f) // take half the width
         ) {
-            Text("Object 2 initial velocity: ${initialSpeed}m/s [Right]")
+            Text("Initial horizontal speed: %.3gm/s".format(initialSpeed))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -179,9 +179,9 @@ fun Inputs() {
 
                         val value = newText.toFloatOrNull()
                         if (value != null) {
-                            val clamped = value.coerceIn(1f, 1e10f)
+                            val clamped = value.coerceIn(1f, 1e8f)
                             GlobalVars.initialSpeed = round(clamped)
-                            Calculations.updateAll()
+                            Calculations.performCalculations()
                         }
                     },
                     label = { Text("Value:") },
@@ -195,9 +195,9 @@ fun Inputs() {
                     onValueChange = {
                         GlobalVars.initialSpeed = round(it * 10) / 10
                         initialSpeedText = (round(it)).toString()
-                        Calculations.updateAll()
+                        Calculations.performCalculations()
                     },
-                    valueRange = 1f..1e10f,
+                    valueRange = 1f..1e8f,
                     modifier = Modifier.weight(1f)
                 )
             }
