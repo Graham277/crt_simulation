@@ -1,5 +1,6 @@
 /*
  * Created by: Graham J
+ * Last edited on: December 8th 2025
  * Purpose: Collect user inputs with sliders and text fields.
  */
 

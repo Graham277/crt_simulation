@@ -1,6 +1,6 @@
 /*
- * Created by: Graham Jarrett
- * Created on: 2025-12-08
+ * Created by: Graham J
+ * Created on: December 8th 2025
  * Purpose: CRT electron trajectory animation with bottom-to-top motion
  */
 
@@ -59,23 +59,36 @@ fun Animation(modifier: Modifier = Modifier) {
                 val topPlateHeight = midY - halfPlateHeightPx
                 val bottomPlateHeight = midY + halfPlateHeightPx
 
-                // Draw plates and the line of the left end
+                // Top plate (positive)
                 drawLine(
-                    color = Color.DarkGray,
+                    color = Color.Red,
                     start = Offset(leftMargin, topPlateHeight),
                     end = Offset(leftMargin + plateLengthPx, topPlateHeight),
-                    strokeWidth = 4f
+                    strokeWidth = 8f
                 )
+
+                // Bottom plate (negative)
                 drawLine(
-                    color = Color.DarkGray,
+                    color = Color.Blue,
                     start = Offset(leftMargin, bottomPlateHeight),
                     end = Offset(leftMargin + plateLengthPx, bottomPlateHeight),
-                    strokeWidth = 4f
+                    strokeWidth = 8f
                 )
+
+                // Left vertical line
                 drawLine(
                     color = Color.DarkGray,
                     start = Offset(leftMargin, topPlateHeight),
                     end = Offset(leftMargin, bottomPlateHeight),
+                    strokeWidth = 4f,
+                    cap = StrokeCap.Square
+                )
+
+                // Right vertical line
+                drawLine(
+                    color = Color.DarkGray,
+                    start = Offset(size.width - leftMargin, topPlateHeight),
+                    end = Offset(size.width - leftMargin, bottomPlateHeight),
                     strokeWidth = 4f,
                     cap = StrokeCap.Square
                 )
